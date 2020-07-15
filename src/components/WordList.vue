@@ -6,8 +6,11 @@
         <ul>
           <li v-for="(word, index) in words" :key="index">
             <router-link
-              v-bind:to="{ name: 'Word', params: { id: word, word: word } }"
-              >{{ word }}</router-link
+              v-bind:to="{
+                name: 'Word',
+                params: { id: word.headword, word: word.headword, data: word },
+              }"
+              >{{ word.headword }}</router-link
             >
           </li>
         </ul>
@@ -19,32 +22,15 @@
 <script>
 export default {
   name: 'WordList',
-  data() {
-    return {
-      words: [
-        'test',
-        'compare',
-        'exercise',
-        'judge',
-        'matters',
-        'mouse',
-        'cycle',
-      ],
-    }
+  computed: {
+    words() {
+      return this.$store.state.words.slice().reverse()
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.items {
-  .item {
-    background: #e0ddd5;
-    color: #171e42;
-    box-sizing: border-box;
-    padding: 10px;
-  }
-}
-
 .wordlist-container {
   margin-top: 60px;
 
@@ -56,14 +42,14 @@ export default {
     align-items: center;
 
     h2 {
-      flex: 0 0 15%;
+      flex: 0 0 25%;
       margin-top: 10px;
       text-align: center;
     }
 
     .wordlist {
       overflow: auto;
-      flex: 0 0 85%;
+      flex: 0 0 75%;
 
       ul {
         list-style: none;
@@ -85,7 +71,7 @@ export default {
           padding: 10px;
           margin-left: 10px;
           margin-top: 10px;
-          max-width: 250px;
+          width: 200px;
 
           a {
             color: white;
